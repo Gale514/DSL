@@ -1,0 +1,65 @@
+state greeting {
+  response: "Welcome to our shop! How can I assist you today?"
+}
+on info in greeting goto product_info
+on order in greeting goto order_start
+on cancel in greeting goto order_cancelled
+on status in greeting goto order_status
+on return in greeting goto return_item
+on help in greeting goto help
+on thanks in greeting goto thanks
+
+state product_info {
+  response: "We have a variety of products. Please specify the product you're interested in."
+}
+on back in product_info goto greeting
+on details in product_info goto product_details
+
+state product_details {
+  response: "Here are the details of the product. Would you like to place an order or ask about another product?"
+}
+on order in product_details goto order_start
+on info in product_details goto product_info
+on back in product_details goto product_info
+
+state order_start {
+  response: "Let's place an order. Please confirm your order."
+}
+on confirm in order_start goto order_confirmed
+on back in order_start goto greeting
+
+state order_confirmed {
+  response: "Your order has been confirmed and placed successfully! Returning to the main menu."
+}
+auto_goto greeting in order_confirmed
+
+state order_cancelled {
+  response: "Your order has been cancelled."
+}
+auto_goto greeting in order_cancelled
+
+state order_status {
+  response: "Your order is being processed and will be delivered soon."
+}
+auto_goto greeting in order_status
+
+state return_item {
+  response: "Your return request has been initiated. Please send the item back to our warehouse."
+}
+auto_goto greeting in return_item
+
+state help {
+  response: "Sure, I can help you with that. What do you need assistance with?"
+}
+auto_goto greeting in help
+
+state thanks {
+  response: "You're welcome! If you need any further assistance, feel free to ask."
+}
+auto_goto greeting in thanks
+
+state unknown {
+  response: "I'm sorry, I didn't understand that. Could you please rephrase your question?"
+}
+auto_goto greeting in unknown
+on unknown in * goto unknown
